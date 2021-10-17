@@ -12,6 +12,12 @@ from tkinter import *
 import random
 from tkinter import messagebox
 from time import ctime
+import time
+
+try:
+    name = input('Enter Your Name: ')
+except KeyboardInterrupt:
+    print('Invalid Name :(')
 
 # Main Window
 win = Tk()
@@ -20,45 +26,67 @@ win.title('Speed Typing')
 win.iconbitmap(r'C:\\Users\\abc\\OneDrive\\Desktop\\Python\\typingspeed.ico')
 win.resizable(0,0)
 
+# Introduction When Application Starts
+print('~About Me')
+print('Hello World!')
+print('Creator: Sahil Rajwar Of Class 12th-A Science Student.')
+print('Date: Thursday 14/Oct/2021')
+print('License: NCC (Non Copyright Code) XD')
+print("************************************************************")
+
 # Back END
-time = ctime()
+c_time = ctime()
 counter = 60
 correct = 0
 incorrect = 0
 
 # Set the Record in 
 def set_record():
-    global correct, incorrect
-    result = round((correct/60)*100,3)
+    global correct, incorrect, name
+    total = correct + incorrect
+    result = round((correct/total)*100,3)
     record = open('C:\\Users\\abc\\OneDrive\\Desktop\\Python\\record_ts.txt','a')
-    record.write('************************\n')
-    record.write(f'{time}\n')
+    record.write('******************************\n')
+    record.write(f'Done by {name} at {c_time}\n')
     record.write(f'Miss: {incorrect}\n')
     record.write(f'Correct: {correct}\n')
     record.write(f'Result: {result}% Accuracy\n')
-    record.write('************************\n')
+    record.write('******************************\n')
     record.close()
 
-with open("C:\\Users\\abc\\OneDrive\\Desktop\\Python\\words.txt", "r") as file:
+def compare():
+    global correct, name
+    if correct >= 30:
+        print('Good Enough')
+    elif correct >= 20:
+        print(f'You are Slow! {name} Keep Improving')
+    else:
+        print(f'Too Slow! {name} Need Improving')
+
+with open("give your file path for words.txt", "r") as file:
     allText = file.read()
     words = list(map(str, allText.split()))
 word = random.choice(words)
 
 # Reset Function to Reset the Score Board and counter
 def reset(event):
-    global correct, incorrect
+    global correct, incorrect, counter
     entry.delete(0,END)
     correct = 0
     incorrect = 0
+    counter = 60
+    display_time.configure(text = counter)
     result1_label.configure(text = correct)
     result2_label.configure(text = incorrect)
+    print('Will Start In 5 sec be ready!')
+    time.sleep(5)
 
 # Exit Fuction to exit/quit the game
 def Exit(event):
     global correct, incorrect
     print(f'Correct: {correct}')
     print(f'Incorrect: {incorrect}')
-    exit()
+    win.destroy()
 
 # Set the Countdown/Timer of 60-secs/1-Min only
 def timer():
@@ -76,10 +104,17 @@ def timer():
     else:
         req = messagebox.askretrycancel('Note','Do You Want To Play Again?')
         if req == True:
-            result = round((correct/60)*100,3)
-            print(f'{result}% Accuracy')
+            try:
+                total = correct + incorrect
+                result = (correct/total)*100
+                print(f'{round(result,3)}% Accuracy')
+            except ZeroDivisionError:
+                print(f'{0}% Accuracy')
             word = random.choice(words)
             set_record()
+            compare()
+            print('Restarting Again...')
+            time.sleep(3)
             display_label.configure(text = word)
             correct = 0
             incorrect = 0
@@ -91,11 +126,17 @@ def timer():
             print(f'Correct: {correct}')
             print(f'Incorrect: {incorrect}')
             # print(f'Your Score: {}')
-            result = round((correct/60)*100,3)
-            print(f'{result}% Accuracy')
+            try:
+                total = correct + incorrect
+                result = (correct/total)*100
+                print(f'{round(result,3)}% Accuracy')
+            except ZeroDivisionError:
+                print(f'{0}% Accuracy')
             set_record()
+            compare()
             print('We hope you like this :)')
-            exit()
+            time.sleep(3)
+            win.destroy()
 
 # Check Function for Handle the main Task e.g -> varifing spellings, Increasing/Decreaseing the Scores, etc
 
