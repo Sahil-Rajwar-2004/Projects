@@ -17,7 +17,7 @@ import time
 try:
     name = input('Enter Your Name: ')
 except KeyboardInterrupt:
-    print('Invalid Name :(')
+    print(':)')
 
 # Main Window
 win = Tk()
