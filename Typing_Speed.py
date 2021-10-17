@@ -63,7 +63,7 @@ def compare():
     else:
         print(f'Too Slow! {name} Need Improving')
 
-with open("give your file path for words.txt", "r") as file:
+with open("C:\\Users\\abc\\OneDrive\\Desktop\\Python\\record_ts.txt", "r") as file:
     allText = file.read()
     words = list(map(str, allText.split()))
 word = random.choice(words)
